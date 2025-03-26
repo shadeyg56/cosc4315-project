@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments,
 
 # Load your sys admin dataset
 dataset = load_dataset("json", data_files={"train": "data.json"})
-print(dataset)
+dataset = dataset["train"].train_test_split(test_size=0.2, seed=35)
 
 # Load GPT-2 model and tokenizer
 model_name = "openai-community/gpt2"
@@ -14,29 +14,28 @@ model = AutoModelForCausalLM.from_pretrained(model_name)
 # Preprocess the dataset
 def tokenize(example):
     prompt = f"Question: {example['question']}\nAnswer: {example['top_answer']}"
-    return tokenizer(prompt, max_length=1000, truncation=True)
+    return tokenizer(prompt, padding="max_length", truncation=True)
 
-tokenized_dataset = dataset.map(tokenize, batched=True)
+tokenized_dataset = dataset.map(tokenize, batched=False)
 
 data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
 # Fine-tuning parameters
 training_args = TrainingArguments(
-    output_dir="./sys_admin_gpt2_model",
-    # evaluation_strategy="epoch",
-    learning_rate=2e-5,
+    evaluation_strategy="epoch",
     per_device_train_batch_size=8,
     per_device_eval_batch_size=8,
     num_train_epochs=3,
     weight_decay=0.01,
     logging_dir="./logs",
-    save_total_limit=2,
+    save_total_limit=2
 )
 
 trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_dataset["train"],
+    eval_dataset=tokenized_dataset["test"],
     data_collator=data_collator
 )
 
