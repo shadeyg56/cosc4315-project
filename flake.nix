@@ -11,17 +11,19 @@
       devShells = forAllSystems (system: {
         default = pkgs.${system}.mkShellNoCC {
 
-          packages = with pkgs.${system}; [
+          packages = with pkgs.${system}.python312Packages; with pkgs.${system}; [
             python312
-            python312Packages.beautifulsoup4
-            python312Packages.types-beautifulsoup4
-            python312Packages.requests
-            python312Packages.lxml
-            python312Packages.numpy
-            python312Packages.scikit-learn
-            python312Packages.transformers
-            python312Packages.tensorflow
-            python312Packages.tf-keras
+            beautifulsoup4
+            types-beautifulsoup4
+            requests
+            lxml
+            numpy
+            scikit-learn
+            transformers
+            torch
+            tf-keras
+            datasets
+            accelerate
           ];
 
           shellHook = ''
