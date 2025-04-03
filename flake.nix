@@ -24,6 +24,11 @@
             tf-keras
             datasets
             accelerate
+            chromadb
+            docker
+            docker-compose
+            rootlesskit
+            ollama
           ];
 
           shellHook = ''
