@@ -27,6 +27,8 @@ services:
       - "8000:8000"
     volumes:
       - chroma-data:/data
+    environment:
+      - ALLOW_RESET=TRUE
 volumes:
   open-webui:
   ollama:
