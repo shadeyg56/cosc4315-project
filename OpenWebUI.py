@@ -56,6 +56,8 @@ class OpenWebUI:
         self._post("ollama/api/pull/0", json=data, should_return=False)
 
     def create_model_from(self, model: str, knowledge: list[dict]):
+        for entry in knowledge:
+            entry.update({"type": "collection"})
         data = {
             "id": "sysadmin",
             "base_model_id": model,
