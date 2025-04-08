@@ -32,11 +32,11 @@ class OpenWebUI:
     def add_knowledge(self, knowledge_id: str, files: list[str]):
         file_ids = []
         file_json = []
-        for file in files:
+        for i, file in enumerate(files):
             try:
                 buffer = io.BytesIO(bytes(file, "ascii"))
                 data = {
-                    "file": ("test", buffer, "text/plain")
+                    "file": (i, buffer, "text/plain")
                 }
                 resp = self._post("api/v1/files/?process=true", files=data)
                 buffer.close()
