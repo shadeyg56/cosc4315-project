@@ -10,7 +10,6 @@ class OpenWebUI:
         self.user_token: str | None = self._login()
 
         self.session.headers.update({"Accept": "application/json"})
-        #self.session.headers.update({"Authorization": f"Bearer {self.user_token}"})
 
     def create_knowledge(self, name: str, desc: str):
         data = {
@@ -46,7 +45,6 @@ class OpenWebUI:
                 file_json.append(resp)
             except Exception as e:
                 pass
-        resp = self._post("api/v1/retrieval/process/files/batch", json={"files": file_json, "collection_name": "file-4833c869-5292-48c0-b840-24b62b4848a6"})
         resp = self._post(f"api/v1/knowledge/{knowledge_id}/files/batch/add", json=file_ids)
 
     def download_model(self, model: str): 
