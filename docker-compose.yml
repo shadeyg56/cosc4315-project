@@ -26,7 +26,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - chroma-data:/chroma/chroma
+      - chroma-data:/data
     environment:
       - ALLOW_RESET=TRUE
 volumes:
