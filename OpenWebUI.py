@@ -36,7 +36,7 @@ class OpenWebUI:
             try:
                 buffer = io.BytesIO(bytes(file, "ascii"))
                 data = {
-                    "file": (i, buffer, "text/plain")
+                    "file": (str(i), buffer, "text/plain")
                 }
                 resp = self._post("api/v1/files/?process=true", files=data)
                 buffer.close()
