@@ -1,4 +1,5 @@
 
+<img src="./logo.png" width="250"/>
 
 ## Instructions
 This project makes use of 3 Docker services to provide a UI for a LLM designed to help with SysAdmin and IT related issues. The base model used is llama3.2b instruct.
