@@ -21,9 +21,16 @@ for entry in data:
     string = f"{entry["title"]}\n{entry["top_answer"]}"
     entries.append(string)
 
-print("Adding knowledge.. might take a while.")
-ids = webui.add_knowledge(knowledge.get("id"), entries)
-knowledge = webui.create_or_get_knowledge("SysAdmin Knowledge", "SysAdmin Knowledge scraped from ServerFault")
+addKnowledge = input("Would you like to upload documents to the database (Y/N): ")
+if addKnowledge.lower() == "y":
+    print("Adding knowledge.. might take a while.")
+    ids = webui.add_knowledge(knowledge.get("id"), entries)
+    knowledge = webui.create_or_get_knowledge("SysAdmin Knowledge", "SysAdmin Knowledge scraped from ServerFault")
+
+print("Importing settings...")
+with open("ui-settings.json") as f:
+    settings = json.load(f)
+webui.set_config(settings)
 
 print("Configuring model...")
 webui.create_model_from(MODEL_NAME, [knowledge])

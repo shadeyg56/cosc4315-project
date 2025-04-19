@@ -79,7 +79,13 @@ class OpenWebUI:
             "access_control": None,
             "is_active": True
         }
-        self._post("/api/v1/models/create", json=data)
+        self._post("api/v1/models/create", json=data)
+
+    def set_config(self, config: dict):
+        data = {
+            "config": config
+        }
+        self._post("api/v1/configs/import", json=data)
 
 
     def _login(self) -> str | None:
