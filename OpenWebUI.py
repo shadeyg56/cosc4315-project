@@ -1,5 +1,6 @@
 import requests
 import io
+import base64
 
 class OpenWebUI:
     def __init__(self, email: str, password: str, base_url: str = "http://localhost:3000/"):
@@ -56,16 +57,26 @@ class OpenWebUI:
     def create_model_from(self, model: str, knowledge: list[dict]):
         for entry in knowledge:
             entry.update({"type": "collection"})
+        
+        # convert profile image to base64
+        with open("logo.png", "rb") as img:
+            encoded = base64.b64encode(img.read()).decode("utf-8")
+        img_url = f"data:image/png;base64,{encoded}"
+
         data = {
             "id": "sysadmin",
             "base_model_id": model,
             "name": "SysAdmin Helper",
             "meta": {
-                "profile_image_url": "/static/favicon.png",
-                "knowledge": knowledge
+                "profile_image_url": img_url,
+                "knowledge": knowledge,
+                "capabilities": {
+                    "vision": False,
+                    "citations": True
+                }
             },
             "params": {},
-            "access_control": {},
+            "access_control": None,
             "is_active": True
         }
         self._post("/api/v1/models/create", json=data)
